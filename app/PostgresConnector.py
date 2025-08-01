@@ -1,7 +1,7 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
-
+from app.logger_config import logger
 class PostgresConnector:
     def __init__(self):
         load_dotenv()
@@ -23,7 +23,7 @@ class PostgresConnector:
             self.cursor = self.conexao.cursor()
             return self
         except Exception as e:
-            print(f"Erro ao conectar ao banco de dados: {e}")
+            logger.error(f"Erro ao conectar ao banco de dados: {e}", exc_info=True)
             raise
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -50,6 +50,6 @@ class PostgresConnector:
             self.cursor.executemany(query, data)
             self.conexao.commit()
         except Exception as e:
-            self.conexao.rollback()
-            print(f"Erro ao executar inserção em massa: {e}")
+            self.conexao.rollback()            
+            logger.error(f"Erro ao executar inserção em massa: {e}", exc_info=True)
             raise

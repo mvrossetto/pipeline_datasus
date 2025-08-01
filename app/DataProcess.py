@@ -3,7 +3,7 @@ from dbfread import DBF
 import pandas as pd
 from app.PostgresConnector import PostgresConnector
 from app.DataHandler import DataHandler 
-
+from app.logger_config import logger
 class DataProcess:
     def get_files_to_process(self):  
         database = DataHandler()
@@ -24,7 +24,7 @@ class DataProcess:
                     with PostgresConnector() as db:
                         db.executar(comando)
             except Exception as e:
-                print(f"Erro ao deletar dados: {e}")
+                logger.error(f"Erro ao deletar dados: {e}", exc_info=True)
 
             #Carrega arquivo
             try:
@@ -42,7 +42,7 @@ class DataProcess:
 
                 DataHandler().insert_to_processed_file(file,file_hash)            
             except Exception as e:
-                print(f"Erro ao preocessar arquivo: {e}")
+                logger.error(f"Erro ao processar arquivo: {e}", exc_info=True)
                 database.file_with_error(file)
                 
     
@@ -54,8 +54,8 @@ class DataProcess:
             for record in table:
                 records.append(record)
             return records    
-        except Exception as e:
-            print(f"Erro ao preocessar arquivo: {e}")
+        except Exception as e:            
+            logger.error(f"Erro ao preocessar arquivo: {e}", exc_info=True)
         
 
         

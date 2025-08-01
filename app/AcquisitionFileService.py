@@ -3,6 +3,7 @@ import os
 from app.Utils import Utils
 from app.DataHandler import DataHandler
 from app.DataProcess import DataProcess
+from app.logger_config import logger
 
 class AcquisitionFileService:
 
@@ -55,6 +56,10 @@ class AcquisitionFileService:
 
     def process_file(self,ftp,file,local_dir):
         file_name = os.path.basename(file)
+
+        #logger.info(f"Processando o arquivo: {file_name}", exc_info=True)
+        logger.info(f"Processando o arquivo: {file_name}")
+
         local_file_path = os.path.join(local_dir, file_name)
             
         # Baixar o arquivo do FTP

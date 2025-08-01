@@ -1,7 +1,7 @@
 from app.PostgresConnector import PostgresConnector
 from app.Utils import Utils
 import os
-from logger_config import logger
+from app.logger_config import logger
 
 class DataHandler:
 
@@ -10,8 +10,7 @@ class DataHandler:
             with PostgresConnector() as db:
                 return db.buscar("SELECT * FROM arquivos_novos;")
         except Exception as e:
-            logger.error(f"Erro ao selecionar os dados: {e}", exc_info=True)
-            print(f"Erro ao selecionar os dados: {e}")                    
+            logger.error(f"Erro ao selecionar os dados: {e}", exc_info=True)            
 
     def verify_table(self,table_name):
         try:            
@@ -22,8 +21,8 @@ class DataHandler:
                 ); """)
             exists = exists[0][0]
             return exists            
-        except Exception as e:
-            print(f"Erro ao verificar existencia das tabelas: {e}")        
+        except Exception as e:            
+            logger.error(f"Erro ao verificar existencia das tabelas: {e}", exc_info=True)
 
     def create_table(self,table,table_name):
         try:            
@@ -148,9 +147,8 @@ class DataHandler:
             
             with PostgresConnector() as db:
                 db.executar(create_table_query)            
-        except Exception as e:
-            print(f"Erro ao criar tabela: {e}")
-        
+        except Exception as e:            
+            logger.error(f"Erro ao criar tabela: {e}", exc_info=True)
 
     def insert_table_data(self,records,table_name,file, file_hash):
 
@@ -170,7 +168,7 @@ class DataHandler:
                     db.executar(insert_query, tuple(row))                
                     
         except Exception as e:
-            print(f"Erro ao inserir dados na tabela: {e}")
+            logger.error(f"Erro ao inserir dados na tabela: {e}", exc_info=True)
             raise e
 
     def insert_to_processed_file(self, file,sha256_hash):
@@ -184,13 +182,13 @@ class DataHandler:
                 db.executar(comando)  
                     
         except Exception as e:
-            print(f"Erro insert into arquivos_processados: {e}")                    
+            logger.error(f"Erro insert into arquivos_processados: {e}", exc_info=True)
 
     def delete_local_file(self,file):
         try:
             os.remove(file)
         except Exception as e:
-             print(f"Erro ao deletar arquivos locais : {e}")
+             logger.error(f"Erro ao deletar arquivos locais : {e}", exc_info=True)
 
     def file_with_error(self, file):
         try:
@@ -198,8 +196,8 @@ class DataHandler:
 
             with PostgresConnector() as db:
                 db.executar(comando)              
-        except Exception as e:
-            print(f"Erro ao executar coamndo na função file_with_error : {e}")                    
+        except Exception as e:            
+            logger.error(f"Erro ao executar comando na função file_with_error : {e}", exc_info=True)
 
     def tabelas_iniciais(self):        
         if not self.verify_table('arquivos_erro'):
@@ -223,8 +221,8 @@ class DataHandler:
             result = [{'nome': row[0], 'hash': row[1], 'data': row[2]} for row in data]
             return result
     
-        except Exception as e:
-            print(f"Erro ao selecionar os dados: {e}")
+        except Exception as e:            
+            logger.error(f"Erro ao selecionar os dados: {e}", exc_info=True)
             return None  # Retorna None ou uma lista vazia em caso de erro
     
 
@@ -248,5 +246,5 @@ class DataHandler:
                 db.executar_many(insert_query, data)
 
         except Exception as e:
-            print(f"Erro ao inserir dados na tabela: {e}")
+            logger.error(f"Erro ao inserir dados na tabela: {e}", exc_info=True)
             raise e
