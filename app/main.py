@@ -4,11 +4,11 @@ import schedule
 import time
 from typing import List
 from contextlib import asynccontextmanager
-from app.DataSusFileAcquisitionController import DataSusFileAcquisition
-from app.PostgresConnector import PostgresConnector
-from app.DataHandler import DataHandler
-from app.Validators.FileRequestValidator import FileRequest
-from app.logger_config import get_logger
+from app.controller.datasus_file_acquisition_controller import DataSusFileAcquisition
+from app.database.postgres_connector import PostgresConnector
+from app.database.data_handler import DataHandler
+from app.validators.file_request_validator import FileRequest
+from app.logger.logger_config import get_logger
 logger = get_logger("Main")
 
 

@@ -1,7 +1,7 @@
-from app.PostgresConnector import PostgresConnector
-from app.Utils import Utils
+from app.database.postgres_connector import PostgresConnector
+from app.utils.utils import Utils
 import os
-from app.logger_config import get_logger
+from app.logger.logger_config import get_logger
 logger = get_logger("DataHandler")
 
 

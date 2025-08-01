@@ -1,10 +1,10 @@
 import ftplib  
 import os
-from app.Utils import Utils
-from app.DataHandler import DataHandler
-from app.DataProcess import DataProcess
+from app.utils.utils import Utils
+from app.database.data_handler import DataHandler
+from app.database.data_process import DataProcess
 
-from app.logger_config import get_logger
+from app.logger.logger_config import get_logger
 logger = get_logger("AcquisitionFileService")
 
 class AcquisitionFileService:

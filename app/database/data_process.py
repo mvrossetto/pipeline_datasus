@@ -1,11 +1,11 @@
 import os
 from dbfread import DBF
 import pandas as pd
-from app.PostgresConnector import PostgresConnector
-from app.DataHandler import DataHandler 
+from app.database.postgres_connector import PostgresConnector
+from app.database.data_handler import DataHandler 
 
 
-from app.logger_config import get_logger
+from app.logger.logger_config import get_logger
 logger = get_logger("DataProcess")
 
 class DataProcess:

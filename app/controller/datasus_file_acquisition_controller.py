@@ -1,8 +1,7 @@
 import os
 from dotenv import load_dotenv
-import json
-from app.DataHandler import DataHandler 
-from app.AcquisitionFileService import AcquisitionFileService
+import json 
+from app.services.acquisition_file_service import AcquisitionFileService
 
 class DataSusFileAcquisition:
     def __init__(self):
