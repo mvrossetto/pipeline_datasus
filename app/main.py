@@ -70,8 +70,7 @@ def process_files(files: List[FileRequest]):
         }
 
 def run_scheduler():
-    # Executar todo dia às 09:00
-    schedule.every().day.at("09:58").do(tarefa)
+    schedule.every().monday.at("03:00").do(tarefa)
     while True:
         schedule.run_pending()
         time.sleep(1)

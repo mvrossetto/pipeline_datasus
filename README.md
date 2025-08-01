@@ -70,7 +70,7 @@ Crie o arquivo `.env` com as seguintes variáveis:
 POSTGRES_HOST=localhost
 POSTGRES_DB=postgres
 POSTGRES_USER=postgres
-POSTGRES_PASSWORD=master
+POSTGRES_PASSWORD=senha
 ```
 
 ---
@@ -84,16 +84,16 @@ uvicorn app.main:app --reload
 ```
 
 Acesse a documentação automática:
-- Swagger UI: http://localhost:8000/docs  
+
+- Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
 ---
 
 ## 📡 Endpoints
 
-| Método | Rota             | Função                                         |
-|--------|------------------|------------------------------------------------|
-| `GET`  | `/teste`         | Dispara atualização automática dos arquivos   |
+| Método | Rota             | Função                                              |
+| ------ | ---------------- | --------------------------------------------------- |
 | `POST` | `/process-files` | Recebe lista de arquivos específicos para processar |
 
 ### Exemplo de payload (POST `/process-files`)
@@ -117,7 +117,6 @@ Acesse a documentação automática:
 
 - [ ] Fila assíncrona (Celery/RabbitMQ)
 - [ ] Cache de arquivos já inseridos
-- [ ] Dashboard com status dos arquivos
 - [ ] Testes automatizados
 
 ---
