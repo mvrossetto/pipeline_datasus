@@ -16,9 +16,6 @@ class DataSusFileAcquisition:
         for prefix in repositories['startwith']:
              AcquisitionFileService().look_for_files_starting_with(self.FTP_HOST, prefix['file'], prefix['directory'], self.LOCAL_DIR)
         
-        #for directory in repositories['directory']:
-        #   AcquisitionFileService().process_file_in_repository(self.FTP_HOST, directory, self.LOCAL_DIR)
-
     def read_env(self):
         load_dotenv()
         self.FTP_HOST = os.getenv('FTP_HOST')

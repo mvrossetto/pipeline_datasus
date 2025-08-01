@@ -7,26 +7,6 @@ from app.logger_config import logger
 
 class AcquisitionFileService:
 
-    def process_file_in_repository(self, ftp_host, ftp_dir, local_dir):
-        local_dir = local_dir.replace('\\', '/')
-
-        # Verifica se o diretório local existe
-        if not os.path.exists(local_dir):
-            os.makedirs(local_dir)
-
-        ftp = ftplib.FTP(ftp_host)
-        ftp.login()
-        ftp.cwd(ftp_dir)
-
-        # Listar arquivos no FTP
-        ftp_files = ftp.nlst()
-
-        # Comparar arquivos e baixar novos arquivos
-        for file in ftp_files:
-            self.process_file(ftp,file,local_dir)          
-
-        # Fechar conexão FTP
-        ftp.quit()
 
     def look_for_files_starting_with(self, ftp_host, prefix, ftp_dir, local_dir):
         
