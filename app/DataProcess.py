@@ -3,7 +3,11 @@ from dbfread import DBF
 import pandas as pd
 from app.PostgresConnector import PostgresConnector
 from app.DataHandler import DataHandler 
-from app.logger_config import logger
+
+
+from app.logger_config import get_logger
+logger = get_logger("DataProcess")
+
 class DataProcess:
     def get_files_to_process(self):  
         database = DataHandler()
@@ -23,6 +27,7 @@ class DataProcess:
                     comando = f"DELETE FROM {table} WHERE upper(file_name) = upper('{os.path.basename(file)}') ;"
                     with PostgresConnector() as db:
                         db.executar(comando)
+                        logger.info(f"Deletando dados antigos da tabela: {table}")
             except Exception as e:
                 logger.error(f"Erro ao deletar dados: {e}", exc_info=True)
 
@@ -37,8 +42,7 @@ class DataProcess:
                     database.create_table(table_records,table)
             
                 #Insere registros
-                database.insert_table_data_many(table_records,table,os.path.basename(file), file_hash)
-                #database.insert_table_data(table_records,table,os.path.basename(file), file_hash)
+                database.insert_table_data_many(table_records,table,os.path.basename(file), file_hash)                
 
                 DataHandler().insert_to_processed_file(file,file_hash)            
             except Exception as e:

@@ -1,7 +1,10 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
-from app.logger_config import logger
+
+from app.logger_config import get_logger
+logger = get_logger("PostgresConnector")
+
 class PostgresConnector:
     def __init__(self):
         load_dotenv()

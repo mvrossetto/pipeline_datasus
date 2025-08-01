@@ -3,7 +3,9 @@ import os
 from app.Utils import Utils
 from app.DataHandler import DataHandler
 from app.DataProcess import DataProcess
-from app.logger_config import logger
+
+from app.logger_config import get_logger
+logger = get_logger("AcquisitionFileService")
 
 class AcquisitionFileService:
 
@@ -35,9 +37,7 @@ class AcquisitionFileService:
         ftp.quit()
 
     def process_file(self,ftp,file,local_dir):
-        file_name = os.path.basename(file)
-
-        #logger.info(f"Processando o arquivo: {file_name}", exc_info=True)
+        file_name = os.path.basename(file)       
         logger.info(f"Processando o arquivo: {file_name}")
 
         local_file_path = os.path.join(local_dir, file_name)
@@ -59,5 +59,7 @@ class AcquisitionFileService:
             name_file_extracted = Utils().change_extention(local_file_path,'.dbf')
             DataProcess().process_files(name_file_extracted,ftp_file_hash)
             DataHandler().delete_local_file(name_file_extracted)
+            logger.info(f"Arquivo processado: {file_name}")
         else:
+            logger.info(f"Arquivo estava atualizado: {file_name}")
             DataHandler().delete_local_file(local_file_path)

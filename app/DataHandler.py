@@ -1,7 +1,9 @@
 from app.PostgresConnector import PostgresConnector
 from app.Utils import Utils
 import os
-from app.logger_config import logger
+from app.logger_config import get_logger
+logger = get_logger("DataHandler")
+
 
 class DataHandler:
 
@@ -25,6 +27,8 @@ class DataHandler:
             logger.error(f"Erro ao verificar existencia das tabelas: {e}", exc_info=True)
 
     def create_table(self,table,table_name):
+        logger.info(f"Criando a tabela no banco de dados: {table}")
+
         try:            
             create_table_query = ""
             
@@ -227,6 +231,8 @@ class DataHandler:
     
 
     def insert_table_data_many(self, records, table_name, file, file_hash):
+        logger.info(f"Inserindo dados na tabela: {table_name}")
+
         try:
             # Colunas do DataFrame
             columns = ', '.join(records.columns)
@@ -248,3 +254,4 @@ class DataHandler:
         except Exception as e:
             logger.error(f"Erro ao inserir dados na tabela: {e}", exc_info=True)
             raise e
+        logger.info(f"{records.shape[0]}  - Dados inseridos na tabela: {table_name}")
