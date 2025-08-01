@@ -26,14 +26,16 @@ Automatize a coleta, o tratamento e a persistência de dados do **DATASUS** com 
 pipeline_datasus/
 │
 ├── app/
-│   ├── main.py                      # Roteamento e inicialização da API
-│   ├── DataHandler.py               # Lógica de ingestão e persistência
-│   ├── DataProcess.py               # Conversão dos arquivos DBF
-│   ├── PostgresConnector.py         # Classe para conexão e execução no banco
-│   └── DataSusFileAcquisition.py    # Download de arquivos do FTP
+│ ├── main.py # App FastAPI
+│ ├── controller/ 
+│ ├── database/
+│ ├── logger/
+│ ├── services/
+│ ├── utils/
+│ ├── validators/
+│ └── init.py
 │
-├── .env                             # Variáveis de ambiente
-├── requirements.txt                 # Dependências
+├── requirements.txt # Dependências
 └── README.md
 ```
 
@@ -67,6 +69,9 @@ pip install -r requirements.txt
 Crie o arquivo `.env` com as seguintes variáveis:
 
 ```
+FTP_HOST=ftp.datasus.gov.br
+LOCAL_DIR=C:/ArquivosFTP/
+
 POSTGRES_HOST=localhost
 POSTGRES_DB=postgres
 POSTGRES_USER=postgres
