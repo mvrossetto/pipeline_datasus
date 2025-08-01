@@ -1,0 +1,8 @@
+pandas
+fastapi
+schedule
+uvicorn
+datasus_dbc
+psycopg2
+dotenv
+dbfread
