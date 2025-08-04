@@ -84,5 +84,3 @@ async def lifespan(app):
     yield
 
 app.router.lifespan_context = lifespan
-
-

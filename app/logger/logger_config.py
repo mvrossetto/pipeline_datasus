@@ -33,6 +33,7 @@ def get_logger(module_name: str):
     """Retorna um logger configurado para o módulo especificado."""
     logger = logging.getLogger(module_name)
     logger.setLevel(logging.DEBUG)  # Alterar para INFO em produção
+    logger.propagate = False  # Evita duplicação em loggers raiz
 
     # Evita adicionar handlers duplicados
     if not logger.handlers:
@@ -42,13 +43,14 @@ def get_logger(module_name: str):
         console_handler.setFormatter(CustomFormatter())
         logger.addHandler(console_handler)
 
-        # === Handler para arquivo com rotação diária === #
+        # === Handler para arquivo com rotação diária e delay para evitar PermissionError === #
         file_handler = TimedRotatingFileHandler(
             LOG_FILE,
             when="midnight",   # Rotaciona a cada meia-noite
             interval=1,
             backupCount=7,     # Mantém últimos 7 dias de logs
-            encoding="utf-8"
+            encoding="utf-8",
+            delay=True         # Evita manter o arquivo aberto constantemente
         )
         file_formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
