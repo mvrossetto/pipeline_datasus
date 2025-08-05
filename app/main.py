@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,BackgroundTasks
 import threading
 import schedule
 import time
@@ -14,7 +14,6 @@ logger = get_logger("Main")
 
 
 app = FastAPI()
-
 
 @app.get("/")
 def root():
@@ -42,32 +41,25 @@ def tarefa():
     DataSusFileAcquisition().atualiza_arquivos()
 
 @app.post("/process-files")
-def process_files(files: List[FileRequest]):
-    try:
-        # Itera pelos arquivos recebidos
-        processed_files = []
-        for file_item in files:            
-            logger.info(f"Recebendo arquivo {file_item.file} do diretório {file_item.directory}")
+async def process_files(files: List[FileRequest], background_tasks: BackgroundTasks):
+    processed_files = []
 
-            # Aqui você pode chamar sua função para processar cada arquivo
-            # Exemplo fictício:
-            DataSusFileAcquisition().processa_arquivo(file_item.directory, file_item.file)
+    for file_item in files:
+        logger.info(f"Recebendo arquivo {file_item.file} do diretório {file_item.directory}")
 
-            processed_files.append({
-                "directory": file_item.directory,
-                "file": file_item.file,
-                "status": "Processado com sucesso"
-            })
-        
-        return {
-            "status": "Arquivos recebidos",
-            "detalhes": processed_files
-        }
-    except Exception as e:
-        return {
-            "status": "Erro",
-            "mensagem": str(e)
-        }
+        # Adiciona a tarefa ao processamento em segundo plano
+        background_tasks.add_task(DataSusFileAcquisition().processa_arquivo, file_item.directory, file_item.file)
+
+        processed_files.append({
+            "directory": file_item.directory,
+            "file": file_item.file,
+            "status": "Processamento iniciado em background"
+        })
+
+    return {
+        "status": "Arquivos recebidos",
+        "detalhes": processed_files
+    }
 
 def run_scheduler():
     schedule.every().monday.at("03:00").do(tarefa)
