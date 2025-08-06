@@ -69,7 +69,7 @@ class DataProcess:
         
     def choose_table_to_insert(self,file_path):   # Nesse link temos as legendas: https://datasus.saude.gov.br/transferencia-de-arquivos/         
         file_name = os.path.basename(file_path)
-        logger.info(f"Escolhendo tabela para inserir arquivo:{os.path.basename(file_name)}")
+        logger.info(f"Escolhendo tabela para inserir arquivo: {os.path.basename(file_name)}")
         if file_name.startswith('CIHA'):
             return 'CIHA'
         elif file_name.startswith('DNRS'):
