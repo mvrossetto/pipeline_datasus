@@ -176,7 +176,8 @@ class DataHandler:
             raise e
 
     def insert_to_processed_file(self, file,sha256_hash):
-        try:                  
+        try:
+            logger.info(f"Inserindo na tabela de arquivos processados: {os.path.basename(file)}")
             file = Utils().change_extention(file,'.dbc')
             file = os.path.basename(file)
             
@@ -191,8 +192,9 @@ class DataHandler:
     def delete_local_file(self,file):
         try:
             os.remove(file)
+            logger.info(f"Deletando arquivo local: {file}")
         except Exception as e:
-             logger.error(f"Erro ao deletar arquivos locais : {e}", exc_info=True)
+            logger.error(f"Erro ao deletar arquivos locais : {e}", exc_info=True)
 
     def file_with_error(self, file):
         try:
@@ -250,6 +252,8 @@ class DataHandler:
             # Inserção em lote
             with PostgresConnector() as db:
                 db.executar_many(insert_query, data)
+
+            logger.info(f"Dados inseridos na tabela: {table_name}")
 
         except Exception as e:
             logger.error(f"Erro ao inserir dados na tabela: {e}", exc_info=True)

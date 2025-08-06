@@ -2,6 +2,9 @@ import hashlib
 import os
 import datasus_dbc
 
+from app.logger.logger_config import get_logger
+logger = get_logger("Utils")
+
 class Utils:
 
     def calculate_file_hash(self, file_path):
@@ -20,5 +23,6 @@ class Utils:
         dbf_path = self.change_extention(dbc_path, '.dbf')
 
         # Decompress the DBC file to DBF
+        logger.info(f"Decompressing DBC file: {dbc_path} to {dbf_path}")
         datasus_dbc.decompress(dbc_path, dbf_path)
         os.remove(dbc_path)  # Remove the original DBC file after decompression        

@@ -33,7 +33,9 @@ class DataProcess:
 
             #Carrega arquivo
             try:
+                logger.info(f"Carregando registros do arquivo arquivo: {os.path.basename(file)}")
                 records = self.read_dbf_file(file)    
+                logger.info(f"Convertendo registros para tabela - pandas: {os.path.basename(file)}")
                 table_records = self.list_to_table(records)
                 
                 #Verifica se a tabela existe
@@ -65,8 +67,9 @@ class DataProcess:
         
 
         
-    def choose_table_to_insert(self,file_path):   # Nesse link temos as legendas: https://datasus.saude.gov.br/transferencia-de-arquivos/ 
-        file_name = os.path.basename(file_path)        
+    def choose_table_to_insert(self,file_path):   # Nesse link temos as legendas: https://datasus.saude.gov.br/transferencia-de-arquivos/         
+        file_name = os.path.basename(file_path)
+        logger.info(f"Escolhendo tabela para inserir arquivo:{os.path.basename(file_name)}")
         if file_name.startswith('CIHA'):
             return 'CIHA'
         elif file_name.startswith('DNRS'):
@@ -190,6 +193,7 @@ class DataProcess:
         elif file_name.startswith('DOBR'):
             return 'SIM'
         else:
+            logger.error(f"Arquivo {file_name} não corresponde a nenhuma tabela conhecida.")
             return False    
     def list_to_table(self,data):    
         df = pd.DataFrame(data)
