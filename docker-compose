@@ -31,7 +31,7 @@ services:
       - DATABASE_PASSWORD=${POSTGRES_PASSWORD}
       - DATABASE_NAME=${POSTGRES_DB}
       - FTP_HOST=${FTP_HOST}
-      - FTP_USER=${FTP_USER}
+      - LOCAL_DIR=${LOCAL_DIR}
     depends_on:
       - db
     networks:
