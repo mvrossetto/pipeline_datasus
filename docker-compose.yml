@@ -1,0 +1,39 @@
+services:
+  banco:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: master
+    ports:
+      - "5432:5432"
+    volumes:
+      - /Users/marcosrossetto/projetos/Github/postgres:/var/lib/postgresql/data
+    networks:
+      - compose-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+  app:
+    build: .
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST:-banco}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+    depends_on:
+      banco:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - /Users/marcosrossetto/projetos/Github/ftpfiles:/data/ftpfiles
+    networks:
+      - compose-network
+
+networks:
+  compose-network:
+    driver: bridge
