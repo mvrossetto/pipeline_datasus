@@ -64,11 +64,11 @@ async def process_files(files: List[FileRequest], background_tasks: BackgroundTa
 
 
 @app.post("/desnormalize-data")
-async def process_files(year_begins: int, year_ends: int, background_tasks: BackgroundTasks):
+async def process_files(year_begins: int, year_ends: int, isConfirmado: bool):
     logger.info(f"Processamento de dados iniciado para o período {year_begins} a {year_ends}")
 
     try:
-        ProcessingDataService().process_data(year_begins, year_ends)
+        ProcessingDataService().process_data(year_begins, year_ends, isConfirmado)
         return {
             "status": "Dados processados com sucesso",
             "year_begins": year_begins,

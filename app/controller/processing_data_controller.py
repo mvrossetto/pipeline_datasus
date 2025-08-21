@@ -8,6 +8,6 @@ class ProcessingData:
 
     def build_desnormalized_data(self):
         logger.info(f"build_desnormalized_data called")
-        ProcessingDataService().process_data(2019, 2019)
+        ProcessingDataService().process_data(2019, 2019,True)
         pass
         
